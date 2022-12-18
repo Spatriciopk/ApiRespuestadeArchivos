@@ -7,8 +7,6 @@ from os import remove,getcwd
 
 PATH_FILE = getcwd()+"/files/"
 
-from pydrive.drive import GoogleDrive
-from pydrive.auth import GoogleAuth
 
 app = Flask(__name__)
 listClients=[]
