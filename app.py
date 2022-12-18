@@ -159,7 +159,7 @@ def get_users(id):
   
     PATH ='contrato.pdf'
    
-    path_desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Downloads')
+    #path_desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Downloads')
     #path_desktop = path_desktop
     #url = "https://github.com/Spatriciopk/ApiRespuestadeArchivos/blob/main/contrato.pdf"
     #wget.download(url,path_desktop)
