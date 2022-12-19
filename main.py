@@ -11,7 +11,7 @@ def newvalue(titular, status):
     print('Ejecutado')
 
 def searchdata(numContrato):
-    cursor.execute('SELECT [numeroContrato],[titularContrato],[StatusContrato],[PlanSalud].[idPlan],[nombrePlan],[idAfiliado] FROM [dbo].[ContratoSeguroSalud] INNER JOIN [dbo].[PlanSalud] ON ([dbo].[ContratoSeguroSalud].[idPlan] = [dbo].[PlanSalud].[idPlan]) WHERE [numeroContrato]  = ' + numContrato)
+    cursor.execute('SELECT [numeroContrato],[titularContrato],[StatusContrato],[PlanSalud].[idPlan],[nombrePlan],[idAfiliado],[PlanSalud].[idProducto] FROM [dbo].[ContratoSeguroSalud] INNER JOIN [dbo].[PlanSalud] ON ([dbo].[ContratoSeguroSalud].[idPlan] = [dbo].[PlanSalud].[idPlan]) WHERE [numeroContrato]   = ' + numContrato)
     consulta = cursor.fetchall()
     return consulta
 
@@ -20,6 +20,10 @@ def searchAfilicado(cedula):
     consulta = cursor.fetchall()
     return consulta
 
+def searchProuct(id_product):
+    cursor.execute("SELECT [nombreProducto] FROM [dbo].[ProductoSalud] WHERE [idProducto]  = \'"+id_product+"\'")
+    consulta = cursor.fetchall()
+    return consulta
 
 conn = pymssql.connect(server='miservidorsqlbayteq.database.windows.net', user='paul.penafiel', password='Bayteq123.', database='BaseSegurosEjemplo')  
 cursor = conn.cursor() 
