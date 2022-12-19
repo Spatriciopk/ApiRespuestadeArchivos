@@ -2,11 +2,10 @@ from flask import Flask, render_template, request,redirect,url_for,flash,jsonify
 import main as m
 import wget
 import os
-from fpdf import FPDF
+from fpdf import FPDF, HTMLMixin
 from os import remove,getcwd
 
 PATH_FILE = getcwd()+"/files/"
-
 
 app = Flask(__name__)
 listClients=[]
@@ -93,7 +92,7 @@ def get_users(id):
         'nombreAfiliado':dataAfiliado[0][0],
         'edadAfiliado':dataAfiliado[0][1]
         }
-
+   
     pdf=FPDF('P', 'mm', 'A4')
     pdf.alias_nb_pages()
     pdf.add_page()
@@ -105,58 +104,57 @@ def get_users(id):
     pdf.cell(70)
         # Title
     pdf.cell(100, 30, 'Información del contrato')
+    pdf.ln(5)
+    pdf.set_line_width(1)
+    pdf.line(10, 45, 200, 45)
+    pdf.set_line_width(0)
+    #SetLineWidth(float width)
         # Line break
     pdf.ln(30)
-    pdf.set_font('Arial','B', 14)
-    pdf.cell(30, 10, 'N° contrato:', 0)
-    pdf.cell(19)
-    pdf.set_font('Arial','', 14)
-    pdf.cell(40, 10, str(informacion['numContrato']), 0)
+  
+    line_height = pdf.font_size * 2
+    col_width = 190/2
+    listData = [["N° Contrato:",str(data[0][0])],
+            ["Nombre del titular:",data[0][1]],
+            ["Cédula del afiliado:",data[0][5]],
+            ["Status de revisión:",data[0][2]],
+            ["Id del plan:",data[0][3]],
+            ["Nombre del plan:",data[0][4]],
+            ["Nombre del afiliado:",dataAfiliado[0][0]],
+            ["Edad del afiliado:",str(dataAfiliado[0][1])]]
+    pdf.ln(line_height)
+    for row in range (len(listData)):
+        for colum in range(len(listData[0])):
+            if(colum == 0):
+                pdf.set_font('Arial','B', 14)
+            else:
+                pdf.set_font('Arial','', 14)
+            pdf.cell(col_width,line_height,listData[row][colum],border=1)
+        pdf.ln(line_height)
+    
 
-    pdf.ln(6)
-    pdf.set_font('Arial','B', 14)
-    pdf.cell(30, 10, 'Nombre del titular:', 0)
-    pdf.set_font('Arial','', 14)
-    pdf.cell(19)
-    pdf.cell(30, 10, str(informacion['strNombre']), 0)
+    pdf.line(15, 240, 85, 240)
+    pdf.line(115, 240, 185, 240)
+    pdf.ln(60)
+    pdf.set_font('Arial', '', 14)
+        # Move to the right
 
-    pdf.ln(6)
-    pdf.set_font('Arial','B', 14)
-    pdf.cell(30, 10, 'Cédula del afilidado:', 0)
-    pdf.set_font('Arial','', 14)
-    pdf.cell(19)
-    pdf.cell(30, 10, str(informacion['strCedula']), 0)
 
-    pdf.ln(6)
-    pdf.set_font('Arial','B', 14)
-    pdf.cell(30, 10, 'Status de revisión:', 0)
-    pdf.set_font('Arial','', 14)
-    pdf.cell(19)
-    pdf.cell(30, 10, str(informacion['strStatus']), 0)
-
-    pdf.ln(6)
-    pdf.set_font('Arial','B', 14)
-    pdf.cell(30, 10, 'Id del plan:', 0)
-    pdf.set_font('Arial','', 14)
-    pdf.cell(19)
-    pdf.cell(30, 10, str(informacion['idPlan']), 0)
-
-    pdf.ln(6)
-    pdf.set_font('Arial','B', 14)
-    pdf.cell(30, 10, 'Nombre del plan:', 0)
-    pdf.set_font('Arial','', 14)
-    pdf.cell(19)
-    pdf.cell(30, 10, str(informacion['strTipoPlan']), 0)
-
-    pdf.ln(6)
-    pdf.set_font('Arial','B', 14)
-    pdf.cell(30, 10, 'Nombre del afiliado:', 0)
-    pdf.set_font('Arial','', 14)
-    pdf.cell(19)
-    pdf.cell(30, 10, str(informacion['nombreAfiliado']), 0)
-
+    pdf.cell(20)
+    pdf.cell(100, 30, data[0][1])
+    pdf.cell(2)
+    pdf.cell(100, 30, dataAfiliado[0][0])
+    
+        
+    pdf.ln(10)
+    pdf.cell(20)
+        # Title
+    pdf.cell(100, 30, 'Firma del titular')
+    pdf.cell(2)
+    pdf.cell(100, 30, "Firma del afiliado")
+   
     pdf.output(PATH_FILE+'contrato.pdf', 'F')
-
+   
 
     datalist=[informacion]
     response = {'message': datalist}
