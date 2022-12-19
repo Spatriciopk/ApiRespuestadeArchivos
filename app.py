@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request,redirect,url_for,flash,jsonify,send_file,send_from_directory
 import main as m
-import wget
+
 import os
-from fpdf import FPDF, HTMLMixin
+from fpdf import FPDF
 from os import remove,getcwd
 
 PATH_FILE = getcwd()+"/files/"
@@ -77,11 +77,13 @@ def submit():
 def get_users(id):
     global listClients
     global datalist
-    remove(PATH_FILE+"contrato.pdf")
+    for f in os.listdir(PATH_FILE):
+        os.remove(os.path.join(PATH_FILE, f))
+  
     data = m.searchdata(id)
     cedulaAfiliado = data[0][5]
     dataAfiliado = m.searchAfilicado(cedulaAfiliado)
-
+    dataProducto = m.searchProuct(data[0][6])
     informacion =   {
         'numContrato' :  data[0][0],
         'strNombre' :  data[0][1],
@@ -108,12 +110,12 @@ def get_users(id):
     pdf.set_line_width(1)
     pdf.line(10, 45, 200, 45)
     pdf.set_line_width(0)
-    #SetLineWidth(float width)
+  
         # Line break
     pdf.ln(30)
-  
     line_height = pdf.font_size * 2
     col_width = 190/2
+
     listData = [["N° Contrato:",str(data[0][0])],
             ["Nombre del titular:",data[0][1]],
             ["Cédula del afiliado:",data[0][5]],
@@ -121,7 +123,8 @@ def get_users(id):
             ["Id del plan:",data[0][3]],
             ["Nombre del plan:",data[0][4]],
             ["Nombre del afiliado:",dataAfiliado[0][0]],
-            ["Edad del afiliado:",str(dataAfiliado[0][1])]]
+            ["Edad del afiliado:",str(dataAfiliado[0][1])],
+            ["Nombre del producto:",dataProducto[0][0]]]
     pdf.ln(line_height)
     for row in range (len(listData)):
         for colum in range(len(listData[0])):
@@ -135,7 +138,7 @@ def get_users(id):
 
     pdf.line(15, 240, 85, 240)
     pdf.line(115, 240, 185, 240)
-    pdf.ln(60)
+    pdf.ln(50)
     pdf.set_font('Arial', '', 14)
         # Move to the right
 
@@ -153,21 +156,14 @@ def get_users(id):
     pdf.cell(2)
     pdf.cell(100, 30, "Firma del afiliado")
    
-    pdf.output(PATH_FILE+'contrato.pdf', 'F')
+    pdf.output(PATH_FILE+'contrato_'+str(id)+'_'+data[0][5]+'.pdf', 'F')
    
 
-    datalist=[informacion]
-    response = {'message': datalist}
   
-    PATH =PATH_FILE+'contrato.pdf'
    
-    #path_desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Downloads')
-    #path_desktop = path_desktop
-    #url = "https://github.com/Spatriciopk/ApiRespuestadeArchivos/blob/main/contrato.pdf"
-    #url = "https://www.python.org/static/img/python-logo@2x.png";
-    #wget.download(url,path_desktop)
-    return send_from_directory(PATH_FILE,path="contrato.pdf",as_attachment=True)
-    #return send_file(PATH,as_attachment=False)
+    
+    return send_from_directory(PATH_FILE,path='contrato_'+str(id)+'_'+data[0][5]+'.pdf',as_attachment=True)
+ 
 
 if __name__== '__main__':
     app.run(debug=True)
