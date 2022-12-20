@@ -151,9 +151,9 @@ def get_users(id):
         # Title
     pdf.cell(100, 30, 'FORMULARIO DE SUSCRIPCIÓN')
         # Line break
-    pdf.ln(8)
+    pdf.ln(15)
     pdf.set_text_color(19,108,180)
-    pdf.set_font('Arial', 'B', 16)
+    pdf.set_font('Arial', 'B', 15)
     pdf.cell(100, 30, 'Suscripción del Contrato')
 
     pdf.ln(8)
@@ -172,12 +172,12 @@ def get_users(id):
     pdf.cell(100, 30, 'Fecha de suscripción / Inicio de vigencia: '+fecha)
 
 
-    pdf.ln(8)
+    pdf.ln(15)
     pdf.set_text_color(19,108,180)
-    pdf.set_font('Arial', 'B', 16)
+    pdf.set_font('Arial', 'B', 15)
 
     pdf.cell(100, 30, 'Contratantes:')
-    pdf.ln(8)
+    pdf.ln(12)
     pdf.set_text_color(19,108,180)
     pdf.set_font('Arial', '', 15)
     pdf.cell(100, 30, 'A. Compañia de servicios de atención integral de salud prepagada.')   
@@ -185,7 +185,7 @@ def get_users(id):
     pdf.set_text_color(60,60,60)
     pdf.set_font('Arial', '', 11)
     pdf.cell(100, 30, 'Saludsa Sistema de Medicina Prepagada del Ecuador S.A. (SALUDSA)')   
-    pdf.ln(8)
+    pdf.ln(12)
     pdf.set_text_color(19,108,180)
     pdf.set_font('Arial', '', 15)
     pdf.cell(100, 30, 'B. Datos del titular / contratante')   
@@ -203,7 +203,7 @@ def get_users(id):
     pdf.cell(50, 30, 'casado')  
 
 
-    pdf.ln(8)
+    pdf.ln(15)
     pdf.set_text_color(19,108,180)
     pdf.set_font('Arial', '', 15)
     pdf.cell(100, 30, 'Notificaciones Titular / Contratante') 
@@ -244,8 +244,19 @@ def get_users(id):
     pdf.set_font('Arial', '', 9)
     pdf.cell(28, 30, '    *Autorizo a recibir de Saludsa todo tipo de notificaciones en la información de contacto proporcionada.')
 
+    pdf.set_text_color(105,110,111)
+    pdf.ln(46)
+        # Select Arial italic 8
+    pdf.set_font('Arial', 'I', 8)
+        # Print centered page number
+    pdf.cell(13, 10, 'N° Contrato: '+ str(data[0][0]), 0, 0, 'C')
 
-    pdf.ln(8)
+
+    pdf.ln(30)
+    pdf.set_font('Arial', 'B', 15)
+    pdf.cell(100, 30, '')
+    pdf.image('static/images/salusa.png', 190, 20, 10,10)
+    pdf.ln(10)
     pdf.set_text_color(19,108,180)
     pdf.set_font('Arial', '', 15)
     pdf.cell(40, 30, 'Forma de Pago:') 
@@ -259,7 +270,7 @@ def get_users(id):
     pdf.set_font('Arial', 'U', 11)
     pdf.cell(13, 30, 'Q1') 
 
-    pdf.ln(8)
+    pdf.ln(12)
     pdf.set_text_color(19,108,180)
     pdf.set_font('Arial', '', 15)
     pdf.cell(56, 30, '   Reembolso de gastos ') 
@@ -269,7 +280,7 @@ def get_users(id):
     pdf.set_font('Arial', '', 9)
     pdf.cell(40, 30, '     (*) Acepto que el reembolso de gastos con pago inteligente, serán realizados única y exclusivamente a la cuenta del titular.') 
 
-    pdf.ln(8)
+    pdf.ln(12)
     pdf.set_text_color(60,60,60)
     pdf.set_font('Arial', '', 11)
     pdf.cell(95, 30, 'Nombre del Banco: inn_reembolso_nombrebanco') 
@@ -281,24 +292,19 @@ def get_users(id):
     pdf.ln(8)
     pdf.cell(95, 30, 'Código del vendedor: inn_codigovendedorcontrato')
     pdf.cell(13, 30, 'Firma director: salud_directorname')
-    pdf.set_text_color(105,110,111)
-    pdf.ln(22)
-        # Select Arial italic 8
-    pdf.set_font('Arial', 'I', 8)
-        # Print centered page number
-    pdf.cell(13, 10, 'N° Contrato: '+ str(data[0][0]), 0, 0, 'C')
-  
-
-
-    pdf.ln(30)
+    
+    pdf.ln(15)
     pdf.set_text_color(19,108,180)
-    pdf.set_font('Arial', 'B', 16)
+    pdf.set_font('Arial', 'B', 15)
     pdf.cell(100, 30, 'Usuarios')
-    pdf.image('static/images/salusa.png', 190, 20, 10,10)
+    
+
+
+  
 
     listTable2 = [[" ","Nombre Completo"," ","Sin Maternidad","Tarjeta Adicional","Sexo","Parentesco código","Cuota"],
                     [data[0][5],nomCompleto[0],nomCompleto[1]," "," ","Masculino","2","109"]]
-    pdf.ln(20)
+    pdf.ln(12)
     line_height = pdf.font_size * 2
     col_width = 195/8
     pdf.ln(line_height)
@@ -321,7 +327,7 @@ def get_users(id):
         pdf.ln(line_height)
 
 
-    pdf.ln(5)
+    pdf.ln(2)
     line_height = pdf.font_size * 4
     col_width = 50
     #pdf.ln(line_height)
@@ -340,7 +346,7 @@ def get_users(id):
                 pdf.cell(col_width,line_height,listTable3[colum],border=1,align='C',fill=True)
 
 
-    pdf.ln(5)
+    pdf.ln(7)
     pdf.set_text_color(60,60,60)
     pdf.set_font('Arial', 'B', 10)
     pdf.cell(24, 30, 'Parentesco: 1.') 
@@ -365,12 +371,12 @@ def get_users(id):
     pdf.ln(5)
     pdf.cell(95,30,"que dichos Beneficiarios no tendrán el Financiamiento ni coberturas por maternidad (Embarazo normal, embarazo ectópico,")
     pdf.ln(5)
-    pdf.cell(95,30,"aborto no provocado), inclusive las relacionadas con Tarifa Cero.")
+    pdf.cell(95,30,"aborto no provocado), inclusive las relacionadas con Terifa Cero.")
 
 
-    pdf.ln(20)
+    pdf.ln(12)
     pdf.set_text_color(19,108,180)
-    pdf.set_font('Arial', 'B', 16)
+    pdf.set_font('Arial', 'B', 15)
     pdf.cell(100, 30, 'Cotización')
 
 
@@ -381,12 +387,12 @@ def get_users(id):
                 ["GASTO ADMINISTRATIVO","0"],
                 ["SEGURO CAMPESINO","0"],
                 ["TOTAL CUOTA MENSUAL","109"],
-                ["GASTO DE EMISIÓN",""],
-                ["SEGURO CAMPESINO POR GASTOS DE EMISIÓN",""],
+                ["GASTO DE EMISIÓN","0"],
+                ["SEGURO CAMPESINO POR GASTOS DE EMISIÓN","0"],
                 ["TOTAL PRIMERA CUOTA","109"],
-                ["DESCUENTO inn_descuentoprimeracuota % PRIMERA CUOTA",""]]
-    pdf.ln(20)
-    line_height = pdf.font_size 
+                ["DESCUENTO inn_descuentoprimeracuota % PRIMERA CUOTA","0"]]
+    pdf.ln(15)
+    line_height = 5
     col_width = 185/2
     
     pdf.set_fill_color(242,242,242)
@@ -414,7 +420,7 @@ def get_users(id):
     pdf.cell(100, 30, '**El descuento otorgado será aplicado mientras se cumplan las condiciones acordadas.')
 
     pdf.set_text_color(105,110,111)
-    pdf.ln(71)
+    pdf.ln(23)
         # Select Arial italic 8
     pdf.set_font('Arial', 'I', 8)
         # Print centered page number
