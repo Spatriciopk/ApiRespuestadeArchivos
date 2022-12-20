@@ -365,7 +365,7 @@ def get_users(id):
     pdf.ln(5)
     pdf.cell(95,30,"que dichos Beneficiarios no tendrán el Financiamiento ni coberturas por maternidad (Embarazo normal, embarazo ectópico,")
     pdf.ln(5)
-    pdf.cell(95,30,"aborto no provocado), inclusive las relacionadas con Terifa Cero.")
+    pdf.cell(95,30,"aborto no provocado), inclusive las relacionadas con Tarifa Cero.")
 
 
     pdf.ln(20)
