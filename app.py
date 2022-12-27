@@ -73,6 +73,47 @@ def submit():
         m.newvalue(listData[1],listData[0]);
     return redirect('/')
 
+@app.route('/api/v1/anexo/<id>', methods=['GET'])
+def get_anexo(id):
+    data = m.searchdata(id)
+    ## cedula afiliado, nombre del titular
+    ##data[0,5] , data[0,1]
+    pdf=FPDF('P', 'mm', 'A4')
+    pdf.alias_nb_pages()
+    pdf.add_page()
+            # Logo
+        # Arial bold 15
+    pdf.set_font('Arial', 'B', 12)
+    pdf.set_text_color(110,173,255)
+        # Move to the right
+    pdf.cell(90)
+        # Title
+    pdf.cell(100, 30, 'CONTRATO N°: ContSeg'+str(data[0][0]))
+   
+    pdf.image('static/images/salusa.png', 190, 20, 10,10)
+    pdf.ln(20)
+    pdf.set_text_color(19,108,180)
+    pdf.set_font('Arial', 'B', 15)
+    pdf.cell(100, 30, 'Anexo')
+
+    pdf.ln(8)
+    pdf.set_text_color(60,60,60)
+    pdf.set_font('Arial', '', 11)
+    pdf.cell(70, 30, 'Titular: '+data[0][1])
+   
+    pdf.cell(34, 30, 'Cédula del afiliado: ')
+    pdf.set_font('Arial', 'U', 11)
+    cedulaAfiliado = data[0][5]
+    pdf.cell(70, 30, cedulaAfiliado )
+    pdf.output(PATH_FILE+'anexo_'+str(id)+'_'+data[0][5]+'.pdf', 'F')
+
+    return send_from_directory(PATH_FILE,path='anexo_'+str(id)+'_'+data[0][5]+'.pdf',as_attachment=True)
+
+
+
+
+
+
 @app.route('/api/v1/info/<id>', methods=['GET'])
 def get_users(id):
     global listClients
