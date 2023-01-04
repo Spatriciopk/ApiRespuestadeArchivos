@@ -25,5 +25,5 @@ def searchProuct(id_product):
     consulta = cursor.fetchall()
     return consulta
 
-conn = pymssql.connect(server='miservidorsqlbayteq.database.windows.net', user='paul.penafiel', password='Bayteq123.', database='BaseSegurosEjemplo')  
+conn = pymssql.connect(server='miserversqlbayteq.database.windows.net', user='paul.penafiel', password='Bayteq123.', database='BaseSegurosEjemplo')  
 cursor = conn.cursor() 
